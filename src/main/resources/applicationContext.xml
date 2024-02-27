@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+		<!-- 读取配置文件 数据库 -->
+		<context:property-placeholder location="classpath:db.properties"/>
+		
+		<!-- 配置数据源 -->
+		<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+			<property name="driverClass" value="${jdbc.driverClass}"/>
+			<property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+			<property name="user" value="${jdbc.user}"/>
+			<property name="password" value="${jdbc.password}"/>
+		</bean>
+	
+		<!-- 开启注解扫描 -->
+		<context:component-scan base-package="com.xzc"></context:component-scan>
+		
+		<!-- 静态资源放行 -->
+		<mvc:resources location="/css/" mapping="/css/**"/>
+		<mvc:resources location="/fonts/" mapping="/fonts/**"/>
+		<mvc:resources location="/js/" mapping="/js/**"/>
+		<mvc:resources location="/picture/" mapping="/picture/**"/>
+		
+		<!-- 开启注解驱动 -->
+		<mvc:annotation-driven/>
+		
+		<!-- 事务核心管理器 -->
+		<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"/>
+		</bean>
+		
+		<!-- 开启注解事务 -->		
+		<tx:annotation-driven/>
+		
+		<!-- 配置视图解析器 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/jsp/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+		<!-- 配置mybatis -->
+		<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="typeAliasesPackage" value="com.sikiedu.bean"/>
+		</bean>
+		
+		<!-- mapper工厂 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" value="com.sikiedu.mapper"/>
+		</bean>
+		
+		<!-- 配置异常处理器 -->
+		<!-- <bean class="com.sikiedu.exception.MyHandlerExceptionResolver"/> -->
+		
+		<mvc:interceptors>
+			<!-- 拦截器1 -->
+		<!-- 	<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.sikiedu.interceptor.MyInterceptor1"/>
+			</mvc:interceptor> -->
+			
+			<!-- 拦截器2 -->
+	<!-- 		<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.sikiedu.interceptor.MyInterceptor2"/>
+			</mvc:interceptor> -->
+			
+			<!-- 登录验证拦截器 -->
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<mvc:exclude-mapping path="/**/*.css"/>
+				<mvc:exclude-mapping path="/**/*.js"/>
+				<mvc:exclude-mapping path="/**/*.png"/>
+				<mvc:exclude-mapping path="/**/*.tff"/>
+				<mvc:exclude-mapping path="/**/*.woff"/>
+				<bean class="com.xzc.interceptor.LoginInterceptor"/>
+			</mvc:interceptor>
+		</mvc:interceptors>
+		
+		
+		
+		
+		
+		
+		
+		
+</beans>
