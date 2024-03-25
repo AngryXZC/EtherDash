@@ -309,7 +309,7 @@
 	        		dataType:"json",
 	        		data:jsondata,
 	        		success:function(data){
-	        			alert(data);
+	        			alert(JSON.stringify(data));
 	        			alert(data.item_name);
 	        		}
 	        	});
