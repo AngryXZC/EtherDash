@@ -15,10 +15,11 @@
 		<context:property-placeholder location="classpath:db.properties"/>
 
 		<!-- 配置数据源 -->
-		<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-			<property name="driverClass" value="${jdbc.driverClass}"/>
-			<property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
-			<property name="user" value="${jdbc.user}"/>
+
+		<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+			<property name="driverClassName" value="${jdbc.driverClass}"/>
+			<property name="url" value="${jdbc.jdbcUrl}"/>
+			<property name="username" value="${jdbc.user}"/>
 			<property name="password" value="${jdbc.password}"/>
 		</bean>
 
@@ -64,27 +65,27 @@
 
 		<mvc:interceptors>
 			<!-- 拦截器1 -->
-		<!-- 	<mvc:interceptor>
+		 	<mvc:interceptor>
 				<mvc:mapping path="/**"/>
 				<bean class="com.xzc.interceptor.MyInterceptor1"/>
-			</mvc:interceptor> -->
+			</mvc:interceptor>
 
 			<!-- 拦截器2 -->
-	<!-- 		<mvc:interceptor>
+	 		<mvc:interceptor>
 				<mvc:mapping path="/**"/>
 				<bean class="com.xzc.interceptor.MyInterceptor2"/>
-			</mvc:interceptor> -->
+			</mvc:interceptor>
 
 			<!-- 登录验证拦截器 -->
-			<mvc:interceptor>
-				<mvc:mapping path="/**"/>
-				<mvc:exclude-mapping path="/**/*.css"/>
-				<mvc:exclude-mapping path="/**/*.js"/>
-				<mvc:exclude-mapping path="/**/*.png"/>
-				<mvc:exclude-mapping path="/**/*.tff"/>
-				<mvc:exclude-mapping path="/**/*.woff"/>
-				<bean class="com.xzc.interceptor.LoginInterceptor"/>
-			</mvc:interceptor>
+<!--			<mvc:interceptor>-->
+<!--				<mvc:mapping path="/**"/>-->
+<!--				<mvc:exclude-mapping path="/**/*.css"/>-->
+<!--				<mvc:exclude-mapping path="/**/*.js"/>-->
+<!--				<mvc:exclude-mapping path="/**/*.png"/>-->
+<!--				<mvc:exclude-mapping path="/**/*.tff"/>-->
+<!--				<mvc:exclude-mapping path="/**/*.woff"/>-->
+<!--				<bean class="com.xzc.interceptor.LoginInterceptor"/>-->
+<!--			</mvc:interceptor>-->
 		</mvc:interceptors>
 
 
