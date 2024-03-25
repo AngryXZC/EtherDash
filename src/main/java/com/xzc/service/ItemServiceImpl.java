@@ -16,18 +16,18 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private ItemMapper itemMapper;
-	
+
 	@Override
 	public List<ItemInfo> selectAll() throws MyException {
-		
+
 		//制造运行时异常
-		//int i = 1/0;
-		
-	/*	if(true) {
-			throw new MyException("列表没有获取到");
-		}*/
-		
-		
+//		int i = 1/0;
+//
+//		if(true) {
+//			throw new MyException("列表没有获取到");
+//		}
+
+
 		return itemMapper.selectAll();
 	}
 
@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemInfo> selectByVo(ItemInfoVo vo) {
 		return itemMapper.selectByVo(vo);
 	}
-	
-	
+
+
 
 }
